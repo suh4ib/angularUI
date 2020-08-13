@@ -1,0 +1,25 @@
+.close-button {
+    float: right;
+    margin-right: 50px;
+  }
+  
+  .action-button {
+    float: right;
+    margin-right: 50px;
+  }
+  
+  .p-col > span {
+    display: block;
+    margin-bottom: 0.5em;
+  }
+  
+  .p-col-* > span {
+    display: block;
+    margin-bottom: 0.5em;
+  }
+  
+  .p-col-fixed > span {
+    display: block;
+    margin-bottom: 0.5em;
+  }
+  

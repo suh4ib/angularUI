@@ -1,10 +1,26 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-const routes: Routes = [];
+import { EmployeeListComponent } from './employee-list/employee-list.component';
+import { EmployeeFormComponent } from './employee-form/employee-form.component';
+import { EmployeeAttendanceComponent } from './employee-attendance/employee-attendance.component';
+
+const routes: Routes = [
+  {
+    path: 'employees',
+    component: EmployeeListComponent,
+    children: [
+      { path: 'attendance', component: EmployeeAttendanceComponent },
+      { path: ':mode', component: EmployeeFormComponent },
+    ],
+  },
+
+  // otherwise redirect to home
+  { path: '**', redirectTo: 'employees' },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

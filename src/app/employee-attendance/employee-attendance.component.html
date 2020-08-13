@@ -1,0 +1,10 @@
+<p-sidebar
+  [(visible)]="showAttendance"
+  position="right"
+  [style]="{ width: '30em' }"
+  (onHide)="ngOnDestroy()"
+>
+  Attendace of employee {{ id }}
+</p-sidebar>
+
+<router-outlet></router-outlet>

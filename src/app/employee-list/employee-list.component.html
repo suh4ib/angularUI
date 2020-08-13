@@ -1,0 +1,145 @@
+<p-table
+  #dt
+  [value]="employees"
+  [(selection)]="selectedEmployee"
+  [rowHover]="true"
+  styleClass="ui-table-employees"
+  [rows]="10"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  [loading]="loading"
+  [paginator]="true"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  [filterDelay]="0"
+  [globalFilterFields]="['name', 'role', 'type', 'id']"
+>
+  <ng-template pTemplate="caption">
+    List of Employees
+    <!-- <div class="ui-table-globalfilter-container">
+      <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+  </div> -->
+    <div class="ui-table-global-add-container">
+      Add Employee
+      <button
+        pButton
+        type="button"
+        class="ui-button-primary add-user"
+        icon="pi pi-user-plus"
+        (click)="onAdd()"
+      ></button>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <!-- <th> S.No </th> -->
+      <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+      <th pSortableColumn="name">
+        Name <p-sortIcon field="name"></p-sortIcon>
+      </th>
+      <th pSortableColumn="role">
+        Role <p-sortIcon field="role"></p-sortIcon>
+      </th>
+      <th pSortableColumn="type">
+        Type <p-sortIcon field="type"></p-sortIcon>
+      </th>
+      <th>Employee</th>
+    </tr>
+
+    <tr>
+      <!-- <th></th> -->
+      <th>
+        <input
+          pInputText
+          type="text"
+          (input)="dt.filter($event.target.value, 'id', 'contains')"
+          placeholder="Search by Id"
+          class="ui-column-filter"
+        />
+      </th>
+      <th>
+        <input
+          pInputText
+          type="text"
+          (input)="dt.filter($event.target.value, 'name', 'contains')"
+          placeholder="Search by Name"
+          class="ui-column-filter"
+        />
+      </th>
+      <th>
+        <input
+          pInputText
+          type="text"
+          (input)="dt.filter($event.target.value, 'role', 'contains')"
+          placeholder="Search by Role"
+          class="ui-column-filter"
+        />
+      </th>
+      <th>
+        <input
+          pInputText
+          type="text"
+          (input)="dt.filter($event.target.value, 'type', 'contains')"
+          placeholder="Search by Type"
+          class="ui-column-filter"
+        />
+      </th>
+      <th>
+        Edit View Attendance
+      </th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-emp>
+    <tr class="ui-selectable-row">
+      <!-- <td>
+            <p-tableCheckbox [value]="emp"></p-tableCheckbox>
+        </td> -->
+      <td>
+        {{ emp.id }}
+      </td>
+      <td>
+        {{ emp.name }}
+      </td>
+      <td>
+        {{ emp.role }}
+      </td>
+      <td>
+        {{ emp.type }}
+      </td>
+      <td>
+        <button
+          pButton
+          type="button"
+          class="orange-button"
+          icon="pi pi-user-edit"
+          (click)="onEdit()"
+        ></button>
+        <button
+          pButton
+          type="button"
+          class="ui-button-secondary"
+          style="margin-left: 15px;"
+          icon="pi pi-id-card"
+          (click)="onView()"
+        ></button>
+        <button
+          pButton
+          type="button"
+          class="ui-button-secondary"
+          style="margin-left: 15px;"
+          icon="pi pi-calendar-times"
+          (click)="onViewAttendance()"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="5" style="text-align: left;">No employees found.</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<router-outlet></router-outlet>

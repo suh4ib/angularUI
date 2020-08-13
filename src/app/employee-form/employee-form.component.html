@@ -1,0 +1,127 @@
+<p-dialog [(visible)]="addEmployeeDialog || editEmployeeDialog || viewEmployeeDialog" [position]="'center'" [modal]="true" [draggable]="true" [style]="{width: '80%', height: 'auto',margin:'auto 10%'}" [closable]="false" >
+
+    <p-header *ngIf="addEmployeeDialog">
+      Add New Employee
+      <button pButton type="button" class="btn btn-primary close-button" icon="pi pi-times" (click)="close()"></button>
+    </p-header>
+  
+    <p-header *ngIf="editEmployeeDialog">
+      Edit Employee
+      <button pButton type="button" class="btn btn-primary close-button" icon="pi pi-times" (click)="close()"></button>
+    </p-header>
+  
+    <p-header *ngIf="viewEmployeeDialog">
+      View Employee
+      <button pButton type="button" class="btn btn-primary close-button" icon="pi pi-times" (click)="close()"></button>
+    </p-header>
+  
+    <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+      
+      <div class="p-grid">
+        <div class="p-col-6">
+          <b><span>BASIC INFORMATION</span></b>
+        </div>
+      </div>
+      
+  
+      <div class="p-grid">
+        <div class="p-col-3">
+          <span>Full Name</span>
+          <input id="fullname" type="text" size="30" pInputText formControlName="name"> 
+        </div>
+        <div class="p-col-3">
+          <span>Gender</span>
+          <p-selectButton [options]="genders" formControlName="gender"></p-selectButton>
+        </div>
+        <div class="p-col-3">
+          <span>Date of Birth</span>
+            <p-calendar [showIcon]="true" appendTo="body" placeholder="Select DOB" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" dateFormat="dd.mm.yy" formControlName="dob"></p-calendar>
+        </div>
+      </div>
+      
+      <hr>
+  
+      <div class="p-grid">
+        <div class="p-col-6">
+          <b>
+            <span>CONTACT INFORMATION</span>
+          </b>
+        </div>
+      </div>
+      
+      <div class="p-grid">
+        <div class="p-col-2">
+          <span>Phone</span>
+            <p-inputMask mask="99999-99999" placeholder="01234-56789" formControlName="phone"></p-inputMask> 
+        </div>
+        <div class="p-col-3">
+          <span>E-Mail</span>
+          <input type="email" size="40" formControlName="email" pInputText>
+        </div>
+  
+        <div class="p-col-4">
+          <span>Address Lane</span>
+          <input type="text" size="50" formControlName="street" pInputText>
+        </div>
+  
+      </div>
+          
+          <div class="p-grid">
+            <div class="p-col-2">
+              <span>City</span>
+              <input type="text" formControlName="city" pInputText>
+            </div>
+            <div class="p-col-2">
+              <span>State</span>
+              <input type="text" formControlName="state" pInputText>
+            </div>
+            <div class="p-col-2">
+              <span>Zip</span>
+              <p-inputMask mask="999999" placeholder="123456" formControlName="zip"></p-inputMask>
+            </div>
+          </div>
+  
+          <hr>
+  
+          <div class="p-grid">
+            <div class="p-col-12">
+              <b>
+                <span>EMPLOYMENT INFORMATION</span></b>
+            </div>
+          </div>
+  
+          <div class="p-grid">
+          <div class="p-col-3">
+            <span>Employment Type</span>
+            <p-selectButton #type [options]="employmentTypes" ngModel="fullTime" formControlName="type"></p-selectButton>
+          </div>
+          <div class="p-col-2">
+            <span *ngIf="type.value==='fullTime'">Monthly Wages</span>
+            <span *ngIf="type.value==='contractor'">Daily Wages</span>
+            <p-inputNumber *ngIf="type.value==='contractor'||type.value==='fullTime'" pKeyFilter="pint" formControlName="salary"></p-inputNumber>
+          </div>
+          <div class="p-grid" *ngIf="type.value==='fullTime'">
+            <div class="p-col-fixed">
+              <span>ESI/PF</span>
+              <p-selectButton  #pfSelector [options]="pfOptions" ngModel="yes" formControlName="pfOption"></p-selectButton>
+            </div>
+            <div class="p-col" *ngIf="pfSelector.value==='yes'">
+              <span>ESI/PF Amount</span>
+              <p-inputNumber  style="margin-left: .5em" pKeyFilter="pint" formControlName="pf"></p-inputNumber>
+            </div>
+          </div>
+        </div>
+  
+        
+          <p-footer *ngIf="addEmployeeDialog">
+            <button pButton type="submit" class="btn btn-primary action-button">Add</button>
+          </p-footer>
+          <p-footer *ngIf="editEmployeeDialog">
+            <button pButton type="submit" class="btn btn-primary action-button">Save</button>
+          </p-footer>
+  
+    </form>
+  
+  </p-dialog>
+  
+  <router-outlet></router-outlet>
