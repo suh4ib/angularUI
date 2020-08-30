@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { InputService } from '../services/input.service';
 import { Employee } from '../_models/employee';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-employee-list',
@@ -16,6 +17,10 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
   selectedEmployee;
   addSubs: Subscription;
   attendanceSubs: Subscription;
+  searchOptions: any[];
+  selectedSearchOption: any;
+  searchText;
+  @ViewChild('dt') table: Table;
 
   constructor(
     private inputService: InputService,
@@ -34,6 +39,12 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
     this.employee.role = 'co-owner';
     this.employee.type = 'part time';
     this.employees.push(this.employee);
+
+    this.searchOptions = [
+      {name: 'Name',value:'name'},
+      {name: 'Role',value:'role'},
+      {name: 'Type',value:'type'}
+  ];
   }
 
   ngOnInit(): void {
@@ -48,8 +59,13 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
         this.router.navigate(['employees']);
         console.log('close-event-attendance');
       }
-    );
+    );    
   }
+
+  onActivityChange(event) {
+    this.table.filter(event.target.value, this.selectedSearchOption.value, 'contains');
+    
+}
 
   ngOnDestroy(): void {
     this.addSubs.unsubscribe();
