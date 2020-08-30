@@ -9,6 +9,7 @@
   [rowsPerPageOptions]="[10, 25, 50]"
   [loading]="loading"
   [paginator]="true"
+  [alwaysShowPaginator]="false"
   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
   [filterDelay]="0"
   [globalFilterFields]="['name', 'role', 'type', 'id']"
@@ -19,36 +20,39 @@
       <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
   </div> -->
     <div class="ui-table-global-add-container">
-      Add Employee
-      <button
-        pButton
-        type="button"
-        class="ui-button-primary add-user"
-        icon="pi pi-user-plus"
-        (click)="onAdd()"
-      ></button>
+      
+      
     </div>
   </ng-template>
 
   <ng-template pTemplate="header">
     <tr>
       <!-- <th> S.No </th> -->
-      <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
-      <th pSortableColumn="name">
-        Name <p-sortIcon field="name"></p-sortIcon>
+      <!-- <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th> -->
+      <th>
+        Name 
       </th>
-      <th pSortableColumn="role">
-        Role <p-sortIcon field="role"></p-sortIcon>
+      <th>
+        Role 
       </th>
-      <th pSortableColumn="type">
-        Type <p-sortIcon field="type"></p-sortIcon>
+      <th>
+        Type 
       </th>
-      <th>Employee</th>
+      <th>
+        <button
+        pButton
+        type="button"
+        class="ui-button-primary add-user"
+        icon="pi pi-user-plus"
+        (click)="onAdd()"
+      ></button>
+      Add Employee
+      </th>
     </tr>
 
     <tr>
       <!-- <th></th> -->
-      <th>
+      <!-- <th>
         <input
           pInputText
           type="text"
@@ -56,8 +60,8 @@
           placeholder="Search by Id"
           class="ui-column-filter"
         />
-      </th>
-      <th>
+      </th> -->
+      <!-- <th>
         <input
           pInputText
           type="text"
@@ -85,8 +89,8 @@
         />
       </th>
       <th>
-        Edit View Attendance
-      </th>
+       Attendance
+      </th> -->
     </tr>
   </ng-template>
 
@@ -95,9 +99,9 @@
       <!-- <td>
             <p-tableCheckbox [value]="emp"></p-tableCheckbox>
         </td> -->
-      <td>
+      <!-- <td>
         {{ emp.id }}
-      </td>
+      </td> -->
       <td>
         {{ emp.name }}
       </td>
@@ -105,24 +109,10 @@
         {{ emp.role }}
       </td>
       <td>
-        {{ emp.type }}
+        <i *ngIf="emp.type==='full time'" class="pi pi-briefcase"></i>
+        <i *ngIf="emp.type==='part time'" class="pi pi-clock"></i>
       </td>
       <td>
-        <button
-          pButton
-          type="button"
-          class="orange-button"
-          icon="pi pi-user-edit"
-          (click)="onEdit()"
-        ></button>
-        <button
-          pButton
-          type="button"
-          class="ui-button-secondary"
-          style="margin-left: 15px;"
-          icon="pi pi-id-card"
-          (click)="onView()"
-        ></button>
         <button
           pButton
           type="button"
@@ -137,7 +127,7 @@
 
   <ng-template pTemplate="emptymessage">
     <tr>
-      <td colspan="5" style="text-align: left;">No employees found.</td>
+      <td colspan="4" style="text-align: center;">No employees found.</td>
     </tr>
   </ng-template>
 </p-table>

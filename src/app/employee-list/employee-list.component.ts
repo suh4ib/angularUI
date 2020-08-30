@@ -32,7 +32,7 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
     this.employee.id = '2';
     this.employee.name = 'karan';
     this.employee.role = 'co-owner';
-    this.employee.type = 'full time';
+    this.employee.type = 'part time';
     this.employees.push(this.employee);
   }
 
