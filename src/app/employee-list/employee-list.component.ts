@@ -62,9 +62,12 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
     );    
   }
 
+  optionChangeEvent() {
+    this.table.reset();
+  }
+
   onActivityChange(event) {
-    this.table.filter(event.target.value, this.selectedSearchOption.value, 'contains');
-    
+    this.table.filter(event.target.value, this.selectedSearchOption.value, 'contains');  
 }
 
   ngOnDestroy(): void {

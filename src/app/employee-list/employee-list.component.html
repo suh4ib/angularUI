@@ -16,9 +16,11 @@
   <ng-template pTemplate="caption">
     List of Employees
     <div class="ui-table-global-add-container">
-    <p-dropdown  [options]="searchOptions" [(ngModel)]="selectedSearchOption" placeholder="Select Search Field" optionLabel="name" [showClear]="true"></p-dropdown>
-      <input *ngIf="selectedSearchOption" style="margin-left: 10px;" pInputText type="text" (input)="onActivityChange($event)" placeholder="Search" />
-  </div>
+    <p-dropdown  [options]="searchOptions" [(ngModel)]="selectedSearchOption" placeholder="Select Search Field" optionLabel="name" [showClear]="true" (onChange)="optionChangeEvent()"></p-dropdown>
+      <input *ngIf="selectedSearchOption && selectedSearchOption.value==='name'" style="margin-left: 10px;" pInputText type="text" (input)="onActivityChange($event)" placeholder="Search by Name" />
+      <input *ngIf="selectedSearchOption && selectedSearchOption.value==='role'" style="margin-left: 10px;" pInputText type="text" (input)="onActivityChange($event)" placeholder="Search by Role" />
+      <input *ngIf="selectedSearchOption && selectedSearchOption.value==='type'" style="margin-left: 10px;" pInputText type="text" (input)="onActivityChange($event)" placeholder="Search by Type" />
+    </div>
   </ng-template>
 
   <ng-template pTemplate="header">
