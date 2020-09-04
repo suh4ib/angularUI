@@ -27,6 +27,7 @@ import { EmployeeHomeComponent } from './employee-home/employee-home.component';
 import { TableModule } from 'primeng/table';
 import { SidebarModule } from 'primeng/sidebar';
 import { EmployeeAttendanceComponent } from './employee-attendance/employee-attendance.component';
+import { EmployeeViewComponent } from './employee-view/employee-view.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { EmployeeAttendanceComponent } from './employee-attendance/employee-atte
     EmployeeListComponent,
     EmployeeHomeComponent,
     EmployeeAttendanceComponent,
+    EmployeeViewComponent,
   ],
   imports: [
     BrowserModule,

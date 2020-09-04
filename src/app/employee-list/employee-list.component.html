@@ -49,7 +49,7 @@
 
   <ng-template pTemplate="body" let-emp>
     <tr class="ui-selectable-row">
-      <td>
+      <td (click)="viewEmployee(emp.id)" title="Click to view Complete Details"> 
         {{ emp.name }}
       </td>
       <td>

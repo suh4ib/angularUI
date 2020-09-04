@@ -101,5 +101,13 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
     });
   }
 
+  viewEmployee(id) {
+    this.router.navigate(['view'], {
+      queryParams: { employeeId: id },
+      relativeTo: this.route,
+    });
+
+  }
+
   getEmployeeList() {}
 }
