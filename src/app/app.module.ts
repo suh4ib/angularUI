@@ -28,6 +28,7 @@ import { TableModule } from 'primeng/table';
 import { SidebarModule } from 'primeng/sidebar';
 import { EmployeeAttendanceComponent } from './employee-attendance/employee-attendance.component';
 import { EmployeeViewComponent } from './employee-view/employee-view.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { EmployeeViewComponent } from './employee-view/employee-view.component';
     InputSwitchModule,
     CheckboxModule,
     SidebarModule,
+    FontAwesomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
