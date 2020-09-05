@@ -27,7 +27,6 @@ export class EmployeeAttendanceComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('inside attendance side bar destroy');
     this.showAttendance = false;
     this.service.employeeAttendanceSideBarClosedEvent();
   }

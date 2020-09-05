@@ -3,12 +3,71 @@
   
 <div class="p-grid">
     <div class="p-col-10">
-        <div class="box"><h1> {{emp.name}} </h1></div>
+        <div class="box"><h1> {{emp.name}} </h1>
+        </div>
     </div>
     <div class="p-col-2">
         <div class="box">
             <i *ngIf="emp.gender==='M'" class="fa fa-male" style="font-size: 30px;"></i>
             <i *ngIf="emp.gender==='F'" class="fa fa-female" style="font-size: 30px;"></i>
+        </div>
+    </div>
+</div>
+
+<div class="p-grid">
+    <div class="p-col-4">
+        <div class="box"> {{emp.role}} 
+        </div>
+    </div>
+
+    <div class="p-col-4">
+        <div class="box"> 
+            <i *ngIf="emp.type==='Full time'" class="pi pi-briefcase" style="font-size: 30px;"></i>
+            <i *ngIf="emp.type==='Part time'" class="pi pi-clock" style="font-size: 30px;"></i>
+        </div>
+    </div>
+
+</div>
+
+<div class="p-grid">
+    <div class="p-col-4">
+        <div class="box"> {{emp.phone}} 
+        </div>
+    </div>
+
+    <div class="p-col-4">
+        <div class="box"> {{emp.email}} 
+        </div>
+    </div>
+</div>
+
+<div class="p-grid">
+    <div class="p-col-6">
+        <div class="box"> {{emp.address}} 
+        </div>
+    </div>
+</div>
+
+<div class="p-grid">
+    <div class="p-col-6">
+        <div class="box"> {{emp.city}} ,  {{emp.state}} - {{emp.zip}}
+        </div>
+    </div>  
+</div>
+
+<div class="p-grid">
+    <div class="p-col-4">
+        <div class="box"> {{emp.wages}} 
+        </div>
+    </div>
+
+    <div class="p-col-4">
+        <div class="box"> {{emp.esi}} 
+        </div>
+    </div>
+
+    <div class="p-col-4">
+        <div class="box"> {{emp.amount}} 
         </div>
     </div>
 </div>
