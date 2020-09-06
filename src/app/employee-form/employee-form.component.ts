@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { EmployeeService } from '../_services/employee.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 
 @Component({
@@ -14,19 +14,17 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
 
   addEmployeeDialog: boolean;
   editEmployeeDialog: boolean;
-  // viewEmployeeDialog: boolean;
+
   employeeForm: FormGroup;
+  
   yearRange: string;
   currentYear: number;
   employmentType: string = 'default';
-  givenEmployeeId;
-
   genders: SelectItem[];
   employmentTypes: SelectItem[];
   pfOptions: SelectItem[];
-  // pfSelector: boolean = false;
 
-  constructor(private employeeService: EmployeeService, private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute ) {
+  constructor(private employeeService: EmployeeService, private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, private router: Router ) {
 
     this.currentYear = new Date().getFullYear();
     this.yearRange = (this.currentYear - 80).toString() + ':' + this.currentYear.toString();
@@ -72,37 +70,24 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
       if (params.mode === 'add') {
         this.addEmployeeDialog = true;
       }
-      else {
-        this.activatedRoute.queryParams.subscribe((queryParam) => {
-          console.log('Form:'+queryParam.employeeId);
-          this.givenEmployeeId = queryParam.employeeId;
+
+      if (params.mode === 'edit') {
+
+        this.router.navigate( [], {
+          relativeTo: this.activatedRoute,
+          queryParams: { employeeId: this.employeeService.getEmployeeEditId() },
+          queryParamsHandling: 'merge'
         });
+
         this.employeeForm.patchValue({ name: 'suhaib' });
         this.editEmployeeDialog = true;
       }
-
-      // if (params.mode === 'edit') {
-      //   this.activatedRoute.queryParams.subscribe((queryParam) => {
-      //     console.log('Form:'+queryParam);
-      //     this.givenEmployeeId = queryParam.employeeId;
-      //   });
-      //   this.employeeForm.patchValue({ name: 'suhaib' });
-      //   this.editEmployeeDialog = true;
-      // }
 
     });
   
   }
 
   ngOnDestroy(): void {
-    this.closeEmployeeFormComponent();
-  }
-
-  close() {
-    this.closeEmployeeFormComponent();
-  }
-
-  closePopup() {
     this.closeEmployeeFormComponent();
   }
 
@@ -117,5 +102,3 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
   }
 
 }
-
-

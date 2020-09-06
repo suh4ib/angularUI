@@ -59,10 +59,8 @@ export class EmployeeViewComponent implements OnInit,OnDestroy {
 
   onEdit() {
     
-    this.viewEmployeeDialog = false;
-    console.log('View:'+this.employee.id);
     this.employeeService.employeeEditClickedEvent(this.employee.id);
-    // this.ngOnDestroy();
+    this.router.navigate(['employees/edit']);
 
   }
 

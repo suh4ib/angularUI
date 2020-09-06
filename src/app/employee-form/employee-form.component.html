@@ -2,12 +2,12 @@
 
     <p-header *ngIf="addEmployeeDialog">
       Add New Employee
-      <button pButton type="button" class="btn btn-primary close-button" icon="pi pi-times" (click)="close()"></button>
+      <button pButton type="button" class="btn btn-primary close-button" icon="pi pi-times" (click)="ngOnDestroy()"></button>
     </p-header>
   
     <p-header *ngIf="editEmployeeDialog">
       Edit Employee
-      <button pButton type="button" class="btn btn-primary close-button" icon="pi pi-times" (click)="close()"></button>
+      <button pButton type="button" class="btn btn-primary close-button" icon="pi pi-times" (click)="ngOnDestroy()"></button>
     </p-header>
   
     <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">

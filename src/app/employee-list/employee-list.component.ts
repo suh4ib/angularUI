@@ -67,12 +67,6 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
       this.router.navigate(['employees']);
     });
 
-    this.editSubs = this.employeeService.employeeEditClickedSubject.subscribe( (id) => {
-      console.log('List:'+id);
-      this.router.navigate(['employees']);
-      this.onEdit(id);
-    });
-
   }
   
 
@@ -93,14 +87,6 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
 
   onAdd() {
     this.router.navigate(['add'], { relativeTo: this.activatedRoute });
-  }
-
-  onEdit(id: any) {
-    console.log("Edit:"+id);
-    this.router.navigate(['edit'], {
-      queryParams: { employeeId: id },
-      relativeTo: this.activatedRoute,
-    });
   }
 
   viewAttendance(id) {

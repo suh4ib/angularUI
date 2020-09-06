@@ -9,7 +9,8 @@ export class EmployeeService {
   employeeFormClosedSubject = new Subject<void>();
   employeeAttendanceClosedSubject = new Subject<void>();
   employeeViewClosedSubject = new Subject<void>();
-  employeeEditClickedSubject = new Subject<any>();
+
+  employeeEditId;
 
   employeeFormClosedEvent() {
     this.employeeFormClosedSubject.next();
@@ -23,9 +24,12 @@ export class EmployeeService {
     this.employeeViewClosedSubject.next();
   }
 
-  employeeEditClickedEvent(id: any) {
-    console.log('Service:'+id);
-    this.employeeEditClickedSubject.next(id);
+  employeeEditClickedEvent(id) {
+    this.employeeEditId = id;
+  }
+
+  getEmployeeEditId() {
+    return this.employeeEditId;
   }
 
 }
