@@ -9,6 +9,7 @@ export class EmployeeService {
   employeeFormClosedSubject = new Subject<void>();
   employeeAttendanceClosedSubject = new Subject<void>();
   employeeViewClosedSubject = new Subject<void>();
+  employeeEditClickedSubject = new Subject<any>();
 
   employeeFormClosedEvent() {
     this.employeeFormClosedSubject.next();
@@ -20,6 +21,11 @@ export class EmployeeService {
 
   employeeViewClosedEvent(){
     this.employeeViewClosedSubject.next();
+  }
+
+  employeeEditClickedEvent(id: any) {
+    console.log('Service:'+id);
+    this.employeeEditClickedSubject.next(id);
   }
 
 }

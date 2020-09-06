@@ -20,14 +20,15 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
   addSubs: Subscription;
   attendanceSubs: Subscription;
   viewSubs: Subscription;
-  
+  editSubs: Subscription;
+
   searchOptions: any[];
   selectedSearchOption: any;
   searchText;
   
   @ViewChild('dt') table: Table;
 
-  constructor(private employeeService: EmployeeService, private router: Router, private route: ActivatedRoute) {
+  constructor(private employeeService: EmployeeService, private router: Router, private activatedRoute: ActivatedRoute) {
 
     this.employee = new Employee();
     this.employee.id = '1';
@@ -66,7 +67,14 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
       this.router.navigate(['employees']);
     });
 
+    this.editSubs = this.employeeService.employeeEditClickedSubject.subscribe( (id) => {
+      console.log('List:'+id);
+      this.router.navigate(['employees']);
+      this.onEdit(id);
+    });
+
   }
+  
 
   searchOptionChangeEvent() {
     this.table.reset();
@@ -80,26 +88,26 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
     this.addSubs.unsubscribe();
     this.attendanceSubs.unsubscribe();
     this.viewSubs.unsubscribe();
+    this.editSubs.unsubscribe();
   }
 
   onAdd() {
-    this.router.navigate(['add'], { relativeTo: this.route });
+    this.router.navigate(['add'], { relativeTo: this.activatedRoute });
   }
 
-  onEdit() {
-    
+  onEdit(id: any) {
+    console.log("Edit:"+id);
     this.router.navigate(['edit'], {
-      queryParams: { employeeId: 1 },
-      relativeTo: this.route,
+      queryParams: { employeeId: id },
+      relativeTo: this.activatedRoute,
     });
-
   }
 
   viewAttendance(id) {
 
     this.router.navigate(['attendance'], {
       queryParams: { employeeId: id },
-      relativeTo: this.route,
+      relativeTo: this.activatedRoute,
     });
 
   }
@@ -108,7 +116,7 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
     
     this.router.navigate(['view'], {
       queryParams: { employeeId: id },
-      relativeTo: this.route,
+      relativeTo: this.activatedRoute,
     });
 
   }

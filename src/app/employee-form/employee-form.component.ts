@@ -72,17 +72,26 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
       if (params.mode === 'add') {
         this.addEmployeeDialog = true;
       }
-
-      if (params.mode === 'edit') {
+      else {
         this.activatedRoute.queryParams.subscribe((queryParam) => {
+          console.log('Form:'+queryParam.employeeId);
           this.givenEmployeeId = queryParam.employeeId;
         });
         this.employeeForm.patchValue({ name: 'suhaib' });
         this.editEmployeeDialog = true;
       }
 
-    });
+      // if (params.mode === 'edit') {
+      //   this.activatedRoute.queryParams.subscribe((queryParam) => {
+      //     console.log('Form:'+queryParam);
+      //     this.givenEmployeeId = queryParam.employeeId;
+      //   });
+      //   this.employeeForm.patchValue({ name: 'suhaib' });
+      //   this.editEmployeeDialog = true;
+      // }
 
+    });
+  
   }
 
   ngOnDestroy(): void {

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../_services/employee.service';
 import { Employee } from '../_models/employee';
 
@@ -12,8 +12,9 @@ export class EmployeeViewComponent implements OnInit,OnDestroy {
 
   viewEmployeeDialog: boolean = false;
   employee;
-  
-  constructor(private activatedRoute: ActivatedRoute, private employeeService: EmployeeService) {
+  header;
+
+  constructor(private activatedRoute: ActivatedRoute, private employeeService: EmployeeService, private router: Router) {
 
   }
 
@@ -42,6 +43,7 @@ export class EmployeeViewComponent implements OnInit,OnDestroy {
 
       });
 
+      this.header = this.employee.name + '\'s Info';
       this.viewEmployeeDialog = true;
 
     });
@@ -53,6 +55,15 @@ export class EmployeeViewComponent implements OnInit,OnDestroy {
     this.viewEmployeeDialog = false;
     this.employeeService.employeeViewClosedEvent();
  
+  }
+
+  onEdit() {
+    
+    this.viewEmployeeDialog = false;
+    console.log('View:'+this.employee.id);
+    this.employeeService.employeeEditClickedEvent(this.employee.id);
+    // this.ngOnDestroy();
+
   }
 
 }
