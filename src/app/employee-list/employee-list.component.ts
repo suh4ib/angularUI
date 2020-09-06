@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { InputService } from '../services/input.service';
+import { EmployeeService } from '../_services/employee.service';
 import { Employee } from '../_models/employee';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -11,23 +11,24 @@ import { Table } from 'primeng/table';
   styleUrls: ['./employee-list.component.scss'],
 })
 export class EmployeeListComponent implements OnInit, OnDestroy {
-  loading = true;
+
+  loading: boolean = true;
   employees = new Array<Employee>();
   employee;
   selectedEmployee;
+  
   addSubs: Subscription;
   attendanceSubs: Subscription;
   viewSubs: Subscription;
+  
   searchOptions: any[];
   selectedSearchOption: any;
   searchText;
+  
   @ViewChild('dt') table: Table;
 
-  constructor(
-    private inputService: InputService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
+  constructor(private employeeService: EmployeeService, private router: Router, private route: ActivatedRoute) {
+
     this.employee = new Employee();
     this.employee.id = '1';
     this.employee.name = 'suhaib';
@@ -45,36 +46,40 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
       {name: 'Name',value:'name'},
       {name: 'Role',value:'role'},
       {name: 'Type',value:'type'}
-  ];
+    ];
+
   }
 
   ngOnInit(): void {
+  
     this.loading = false;
-    this.addSubs = this.inputService.employeeFormDialogClosed.subscribe( () => {
+
+    this.addSubs = this.employeeService.employeeFormClosedSubject.subscribe( () => {
       this.router.navigate(['employees']);
     });
 
-    this.attendanceSubs = this.inputService.employeeAttendanceSideBarClosed.subscribe( () => {
+    this.attendanceSubs = this.employeeService.employeeAttendanceClosedSubject.subscribe( () => {
         this.router.navigate(['employees']);
     });
      
-    this.viewSubs = this.inputService.employeeViewClosed.subscribe( () => {
+    this.viewSubs = this.employeeService.employeeViewClosedSubject.subscribe( () => {
       this.router.navigate(['employees']);
     });
 
   }
 
-  optionChangeEvent() {
+  searchOptionChangeEvent() {
     this.table.reset();
   }
 
-  onActivityChange(event) {
+  search(event) {
     this.table.filter(event.target.value, this.selectedSearchOption.value, 'contains');  
-}
+  }
 
   ngOnDestroy(): void {
     this.addSubs.unsubscribe();
     this.attendanceSubs.unsubscribe();
+    this.viewSubs.unsubscribe();
   }
 
   onAdd() {
@@ -82,28 +87,25 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
   }
 
   onEdit() {
+    
     this.router.navigate(['edit'], {
       queryParams: { employeeId: 1 },
       relativeTo: this.route,
     });
+
   }
 
-  onView() {
-    this.router.navigate(['view'], {
-      queryParams: { employeeId: 1 },
-      relativeTo: this.route,
-    });
-  }
+  viewAttendance(id) {
 
-  onViewAttendance() {
-    console.log('view attendance is clicked');
     this.router.navigate(['attendance'], {
-      queryParams: { employeeId: 1 },
+      queryParams: { employeeId: id },
       relativeTo: this.route,
     });
+
   }
 
   viewEmployee(id) {
+    
     this.router.navigate(['view'], {
       queryParams: { employeeId: id },
       relativeTo: this.route,

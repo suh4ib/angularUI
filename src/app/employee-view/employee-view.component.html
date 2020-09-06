@@ -1,75 +1,87 @@
-<p-dialog header="View" [(visible)]="viewEmployeeDialog" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+<p-dialog header="View Employee Details" [(visible)]="viewEmployeeDialog" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
     [draggable]="false" [resizable]="false" (onHide)="ngOnDestroy()">
   
 <div class="p-grid">
+
     <div class="p-col-1">
         <div class="box">
-            <i *ngIf="emp.gender==='M'" class="fa fa-male" style="font-size: 30px;"></i>
-            <i *ngIf="emp.gender==='F'" class="fa fa-female" style="font-size: 30px;"></i>
+            <i *ngIf="employee.gender==='M'" class="fa fa-male" style="font-size: 30px;"></i>
+            <i *ngIf="employee.gender==='F'" class="fa fa-female" style="font-size: 30px;"></i>
         </div>
     </div>
+
     <div class="p-col">
-        <div class="box"><h3> {{emp.name}} </h3>
+        <div class="box"><h3> {{employee.name}} </h3>
         </div>
     </div>
+
 </div>
 
 <div class="p-grid">
-    <div class="p-col-4">
-        <div class="box"> {{emp.role}} 
-        </div>
-    </div>
 
-    <div class="p-col-4">
+    <div class="p-col-1">
         <div class="box"> 
-            <i *ngIf="emp.type==='Full time'" class="pi pi-briefcase" style="font-size: 30px;"></i>
-            <i *ngIf="emp.type==='Part time'" class="pi pi-clock" style="font-size: 30px;"></i>
+            <i *ngIf="employee.type==='Full time'" class="pi pi-briefcase" style="font-size: 30px;"></i>
+            <i *ngIf="employee.type==='Part time'" class="pi pi-clock" style="font-size: 30px;"></i>
+        </div>
+    </div>
+
+    <div class="p-col">
+        <div class="box"> {{employee.role}} 
         </div>
     </div>
 
 </div>
 
 <div class="p-grid">
-    <div class="p-col-4">
-        <div class="box"> {{emp.phone}} 
+
+    <div class="p-col-3">
+        <div class="box"> {{employee.phone}} 
         </div>
     </div>
 
-    <div class="p-col-4">
-        <div class="box"> {{emp.email}} 
+    <div class="p-col">
+        <div class="box"> {{employee.email}} 
         </div>
     </div>
+
 </div>
 
 <div class="p-grid">
-    <div class="p-col-6">
-        <div class="box"> {{emp.address}} 
+
+    <div class="p-col">
+        <div class="box"> {{employee.address}} 
         </div>
     </div>
+
 </div>
 
 <div class="p-grid">
-    <div class="p-col-6">
-        <div class="box"> {{emp.city}}, {{emp.state}} - {{emp.zip}}
+
+    <div class="p-col">
+        <div class="box"> {{employee.city}}, {{employee.state}} - {{employee.zip}}
         </div>
-    </div>  
+    </div>
+
 </div>
 
 <div class="p-grid">
+
     <div class="p-col-4">
-        <div class="box"> {{emp.wages}} 
+        <div class="box"> {{employee.wages}} 
         </div>
     </div>
 
     <div class="p-col-4">
-        <div class="box"> {{emp.esi}} 
+        <div class="box"> {{employee.esi}} 
         </div>
     </div>
 
     <div class="p-col-4">
-        <div class="box"> {{emp.amount}} 
+        <div class="box"> {{employee.amount}} 
         </div>
     </div>
+    
 </div>
     
 </p-dialog>

@@ -1,12 +1,8 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-} from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { InputService } from '../services/input.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { EmployeeService } from '../_services/employee.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 
 @Component({
@@ -15,9 +11,10 @@ import { SelectItem } from 'primeng/api';
   styleUrls: ['./employee-form.component.css'],
 })
 export class EmployeeFormComponent implements OnInit, OnDestroy {
+
   addEmployeeDialog: boolean;
   editEmployeeDialog: boolean;
-  viewEmployeeDialog: boolean;
+  // viewEmployeeDialog: boolean;
   employeeForm: FormGroup;
   yearRange: string;
   currentYear: number;
@@ -29,14 +26,10 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
   pfOptions: SelectItem[];
   // pfSelector: boolean = false;
 
-  constructor(
-    private service: InputService,
-    private fb: FormBuilder,
-    private activatedRoute: ActivatedRoute
-  ) {
+  constructor(private employeeService: EmployeeService, private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute ) {
+
     this.currentYear = new Date().getFullYear();
-    this.yearRange =
-      (this.currentYear - 80).toString() + ':' + this.currentYear.toString();
+    this.yearRange = (this.currentYear - 80).toString() + ':' + this.currentYear.toString();
 
     this.genders = [
       { label: 'Male', value: 'male' },
@@ -54,7 +47,7 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
       { label: 'No', value: 'no' },
     ];
 
-    this.employeeForm = this.fb.group({
+    this.employeeForm = this.formBuilder.group({
       name: ['', Validators.required],
       gender: ['', Validators.required],
       dob: ['', Validators.required],
@@ -73,40 +66,23 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    
     this.activatedRoute.params.subscribe((params) => {
-      // console.log(params.mode);
-
+      
       if (params.mode === 'add') {
         this.addEmployeeDialog = true;
       }
 
       if (params.mode === 'edit') {
         this.activatedRoute.queryParams.subscribe((queryParam) => {
-          // console.log(queryParam.employeeId);
           this.givenEmployeeId = queryParam.employeeId;
         });
         this.employeeForm.patchValue({ name: 'suhaib' });
         this.editEmployeeDialog = true;
       }
 
-      if (params.mode === 'view') {
-        this.activatedRoute.queryParams.subscribe((queryParam) => {
-          // console.log(queryParam.employeeId);
-          this.givenEmployeeId = queryParam.employeeId;
-
-          // let emplydata ;
-        });
-
-        this.employeeForm.patchValue({
-          name: 'suhaib',
-          type: 'fullTime',
-          pfOption: 'yes',
-          pf: 1000,
-        });
-        this.employeeForm.disable();
-        this.viewEmployeeDialog = true;
-      }
     });
+
   }
 
   ngOnDestroy(): void {
@@ -128,9 +104,9 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
   private closeEmployeeFormComponent() {
     this.addEmployeeDialog = false;
     this.editEmployeeDialog = false;
-    this.viewEmployeeDialog = false;
-    this.service.employeeFormDialogClosedEvent();
+    this.employeeService.employeeFormClosedEvent();
   }
+
 }
 
 

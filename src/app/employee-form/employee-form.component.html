@@ -1,4 +1,4 @@
-<p-dialog [(visible)]="addEmployeeDialog || editEmployeeDialog || viewEmployeeDialog" [position]="'center'" [modal]="true" [draggable]="true" [style]="{width: '80%', height: 'auto',margin:'auto 10%'}" [closable]="false" >
+<p-dialog [(visible)]="addEmployeeDialog || editEmployeeDialog" [position]="'center'" [modal]="true" [draggable]="true" [style]="{width: '80%', height: 'auto',margin:'auto 10%'}" [closable]="false">
 
     <p-header *ngIf="addEmployeeDialog">
       Add New Employee
@@ -7,11 +7,6 @@
   
     <p-header *ngIf="editEmployeeDialog">
       Edit Employee
-      <button pButton type="button" class="btn btn-primary close-button" icon="pi pi-times" (click)="close()"></button>
-    </p-header>
-  
-    <p-header *ngIf="viewEmployeeDialog">
-      View Employee
       <button pButton type="button" class="btn btn-primary close-button" icon="pi pi-times" (click)="close()"></button>
     </p-header>
   
