@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 export class InputService {
   employeeFormDialogClosed = new Subject<void>();
   employeeAttendanceSideBarClosed = new Subject<void>();
+  employeeViewClosed = new Subject<void>();
 
   public employeeFormDialogClosedEvent() {
     this.employeeFormDialogClosed.next();
@@ -15,4 +16,9 @@ export class InputService {
   public employeeAttendanceSideBarClosedEvent() {
     this.employeeAttendanceSideBarClosed.next();
   }
+
+  public employeeViewClosedEvent(){
+    this.employeeViewClosed.next();
+  }
+
 }

@@ -42,18 +42,9 @@ export class EmployeeViewComponent implements OnInit,OnDestroy {
     });
   }
 
-  private closeEmployeeFormComponent() {
-    this.viewEmployeeDialog = false;
-    this.service.employeeFormDialogClosedEvent();
-  }
   ngOnDestroy(): void {
-    this.closeEmployeeFormComponent();
+    this.viewEmployeeDialog = false;
+    this.service.employeeViewClosedEvent();
   }
 
-  close() {
-    this.closeEmployeeFormComponent();
-  }
-
-
-  
 }

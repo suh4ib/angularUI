@@ -1,15 +1,15 @@
 <p-dialog header="View" [(visible)]="viewEmployeeDialog" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
-    [draggable]="false" [resizable]="false">
+    [draggable]="false" [resizable]="false" (onHide)="ngOnDestroy()">
   
 <div class="p-grid">
-    <div class="p-col-10">
-        <div class="box"><h1> {{emp.name}} </h1>
-        </div>
-    </div>
-    <div class="p-col-2">
+    <div class="p-col-1">
         <div class="box">
             <i *ngIf="emp.gender==='M'" class="fa fa-male" style="font-size: 30px;"></i>
             <i *ngIf="emp.gender==='F'" class="fa fa-female" style="font-size: 30px;"></i>
+        </div>
+    </div>
+    <div class="p-col">
+        <div class="box"><h3> {{emp.name}} </h3>
         </div>
     </div>
 </div>
@@ -50,7 +50,7 @@
 
 <div class="p-grid">
     <div class="p-col-6">
-        <div class="box"> {{emp.city}} ,  {{emp.state}} - {{emp.zip}}
+        <div class="box"> {{emp.city}}, {{emp.state}} - {{emp.zip}}
         </div>
     </div>  
 </div>

@@ -17,6 +17,7 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
   selectedEmployee;
   addSubs: Subscription;
   attendanceSubs: Subscription;
+  viewSubs: Subscription;
   searchOptions: any[];
   selectedSearchOption: any;
   searchText;
@@ -49,17 +50,18 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loading = false;
-    this.addSubs = this.inputService.employeeFormDialogClosed.subscribe(() => {
+    this.addSubs = this.inputService.employeeFormDialogClosed.subscribe( () => {
       this.router.navigate(['employees']);
-      console.log('close-event');
     });
 
-    this.attendanceSubs = this.inputService.employeeAttendanceSideBarClosed.subscribe(
-      () => {
+    this.attendanceSubs = this.inputService.employeeAttendanceSideBarClosed.subscribe( () => {
         this.router.navigate(['employees']);
-        console.log('close-event-attendance');
-      }
-    );    
+    });
+     
+    this.viewSubs = this.inputService.employeeViewClosed.subscribe( () => {
+      this.router.navigate(['employees']);
+    });
+
   }
 
   optionChangeEvent() {
@@ -109,5 +111,8 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
 
   }
 
-  getEmployeeList() {}
+  getEmployeeList() {
+
+  }
+
 }
