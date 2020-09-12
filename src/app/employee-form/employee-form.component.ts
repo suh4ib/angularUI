@@ -55,7 +55,6 @@ export class EmployeeFormComponent implements OnInit, OnDestroy {
       type: [''],
       pfOption: [''],
       pf: [''],
-      // pfSelector:[false,Validators.required],
       street: [''],
       city: ['', Validators.required],
       state: ['', Validators.required],

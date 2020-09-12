@@ -1,0 +1,85 @@
+<div class="header">
+    <div class="header-text">
+      <h1>Today's Order</h1>
+    </div>
+  
+    <div class="spacer"></div>
+  
+    <div class="search-box">
+      <svg class="search" width="24" height="24" viewBox="0 0 200.000000 200.000000" >
+        <g transform="translate(0.000000,200.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+          <path d="M705 1795 c-185 -41 -332 -146 -423 -301 -112 -191 -120 -412 -21 -614 72 -146 220 -274 374 -324 186 -59 391 -30 555 79 l72 48 244 -244 244 -244 27 28 28 27 -244 244 -244 244 48 72 c85 128 125 291 105 433 -22 157 -73 260 -185 373 -64 64 -97 90 -165 123 -138 67 -279 86 -415 56z m330 -109 c169 -64 303 -217 345 -395 17 -73 15 -209 -5 -279 -52 -181 -206 -335 -387 -387 -70 -20 -206 -22 -279 -5 -178 42 -331 176 -395 345 -32 84 -43 229 -24 318 40 193 206 367 403 422 84 24 254 14 342 -19z"/>
+        </g>
+      </svg>
+  
+      <input type="text" class="search" placeholder="Search here" (keyup)="onKeyEnter($event)"> 
+    </div>
+  </div>
+  
+  <div class="content">
+    <div class="list">
+      <div class="filter-content">
+        <div class="filter" >
+          <span class="chip" *ngFor="let orderState of orderStates" [ngClass]="{'selected' : statefilters.includes(orderState)}" (click)="alterStateFilterItem(orderState)">{{orderState}}</span>
+          <!-- <span >Clear all</span> -->
+        </div>
+      
+        <div class="filter" >
+          <span class="chip" *ngFor="let mode of modes" [ngClass]="{'selected' : modefilters.includes(mode)}" (click)="alterModeFilterItem(mode)">{{mode}}</span>
+        </div>
+      </div>
+      
+      <div class="list-content large-list">
+        <div class="card card-order" *ngFor="let order of dispOrders" (click)="selected(order)">
+          <div class="order-header">
+            <span><b>{{order.id}}</b></span>
+          </div>
+          
+          <div class="order-content">
+            <span>{{order.content}}</span>
+          </div>
+          
+          <div class="order-footer">
+            <span>{{order.time}}</span>
+      
+            <span style="right: 10px;"><b>{{order.amount}}</b></span>
+          </div> 
+        </div>
+      </div>
+    </div>
+  
+    <div class="description" *ngIf="selectedOrder!=null">
+      <div style="display: flex;">
+        <span><h1><b>{{selectedOrder.id}}</b></h1> </span>
+        <span style="position: relative; margin-top: 25px;margin-left: 400px;">{{selectedOrder.time}}</span>
+      </div>
+      
+      <p>{{selectedOrder.via}}</p>
+      <p>{{selectedOrder.state}}</p>
+      <p>{{selectedOrder.mode}}</p>
+      <p>{{selectedOrder.address}}</p>
+      <p>{{selectedOrder.address}}</p>
+      
+  
+      <div class="list-content small-list">
+        <div class="row-item" *ngFor="let foodItem of selectedOrder.items">
+          <span class="item particular"><b>{{foodItem.name}}</b></span>
+          <span class="item quantity">{{foodItem.quantity}}</span>
+          <span class="item amount">{{foodItem.quantity * foodItem.price}}</span>
+        </div>
+      </div>
+  
+      <p>{{selectedOrder.address}}</p>
+      <p>{{selectedOrder.address}}</p>
+      <p>{{selectedOrder.address}}</p>
+  
+  
+  
+    </div>
+  </div>
+  
+  <div class="footer">
+    <div>
+      <span > Powered by Managio © 2020</span>
+    </div>
+  </div>

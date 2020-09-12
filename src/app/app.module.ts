@@ -31,6 +31,7 @@ import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { EmployeeHomeComponent } from './employee-home/employee-home.component';
 import { EmployeeAttendanceComponent } from './employee-attendance/employee-attendance.component';
 import { EmployeeViewComponent } from './employee-view/employee-view.component';
+import { OrdersComponent } from './orders/orders.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { EmployeeViewComponent } from './employee-view/employee-view.component';
     EmployeeHomeComponent,
     EmployeeAttendanceComponent,
     EmployeeViewComponent,
+    OrdersComponent,
   ],
   imports: [
     BrowserModule,
