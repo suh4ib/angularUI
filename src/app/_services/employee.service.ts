@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable} from 'rxjs/Observable';
+import { catchError, retry } from 'rxjs/operators';
+import { Employee } from '../_models/employee';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class EmployeeService {
+  
+  constructor(private http: HttpClient) { }
   
   employeeFormClosedSubject = new Subject<void>();
   employeeAttendanceClosedSubject = new Subject<void>();
@@ -30,6 +37,11 @@ export class EmployeeService {
 
   getEmployeeEditId() {
     return this.employeeEditId;
+  }
+
+  getEmployees() {
+    let getAllEmployeesURL = "http://localhost:5000/employee"
+    return this.http.get(getAllEmployeesURL);
   }
 
 }
