@@ -1,82 +1,245 @@
-<p-table
-  #dt
-  [value]="employees"
-  [(selection)]="selectedEmployee"
-  [rowHover]="true"
-  styleClass="ui-table-employees"
-  [rows]="10"
-  [showCurrentPageReport]="true"
-  [rowsPerPageOptions]="[10, 25, 50]"
-  [loading]="loading"
-  [paginator]="true"
-  [alwaysShowPaginator]="false"
-  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-  [filterDelay]="0"
->
-  <ng-template pTemplate="caption">
-    List of Employees
-    <div class="ui-table-global-add-container">
-    <p-dropdown  [options]="searchOptions" [(ngModel)]="selectedSearchOption" placeholder="Select Search Field" optionLabel="name" [showClear]="true" (onChange)="searchOptionChangeEvent()"></p-dropdown>
-      <input *ngIf="selectedSearchOption && selectedSearchOption.value==='name'" style="margin-left: 10px;" pInputText type="text" (input)="search($event)" placeholder="Search by Name" />
-      <input *ngIf="selectedSearchOption && selectedSearchOption.value==='role'" style="margin-left: 10px;" pInputText type="text" (input)="search($event)" placeholder="Search by Role" />
-      <input *ngIf="selectedSearchOption && selectedSearchOption.value==='type'" style="margin-left: 10px;" pInputText type="text" (input)="search($event)" placeholder="Search by Type" />
+<div class="content-screen">
+  <div class="header">
+    <h1>Employees</h1>
+    <div class="spacer"></div>
+    <div class="info-name-holder">
+      <input class="details small" [(ngModel)]="searchText" placeholder="Search by name" (keyup)="alter()"/>
     </div>
-  </ng-template>
+     <div class="spacer"></div>
+    <div class="filter">
+      <span
+        class="chip"
+        *ngFor="let type of availableTypes"
+        [ngClass]="{ selected: type === selectedType }"
+        (click)="alterTypeFilterItem(type)"
+        >{{ type | uppercase }}</span
+      >
+    </div>
+    <div class="spacer"></div>
+    <div class="button primary-button">
+      <span class="button-text" (click)="onNewEmployee()">New Employee</span>
+    </div>
+  </div>
 
-  <ng-template pTemplate="header">
-    <tr>
-      <th>
-        Name 
-      </th>
-      <th>
-        Role 
-      </th>
-      <th>
-        Type 
-      </th>
-      <th>
-        <button
-        pButton
-        type="button"
-        class="ui-button-primary add-user"
-        icon="pi pi-user-plus"
-        (click)="onAdd()"
-      ></button>
-      Add Employee
-      </th>
-    </tr>
-  </ng-template>
+    <div class="header">
+      <div class="filter">
+      <span
+        class="chip"
+        *ngFor="let role of availableRoles"
+        [ngClass]="{ selected: role === selectedRole }"
+        (click)="alterRoleFilterItem(role)"
+        >{{ role | uppercase }}</span
+      >
+      </div>
+    </div>
 
-  <ng-template pTemplate="body" let-emp>
-    <tr class="ui-selectable-row">
-      <td (click)="viewEmployee(emp.id)" title="Click to view Complete Details" style="cursor: pointer;"> 
-        {{ emp.name }}
-      </td>
-      <td>
-        {{ emp.role }}
-      </td>
-      <td>
-        <i *ngIf="emp.type==='full time'" class="pi pi-briefcase"></i>
-        <i *ngIf="emp.type==='part time'" class="pi pi-clock"></i>
-      </td>
-      <td>
-        <button
-          pButton
-          type="button"
-          class="ui-button-secondary"
-          style="margin-left: 15px;"
-          icon="pi pi-calendar-times"
-          (click)="viewAttendance(emp.id)"
-        ></button>
-      </td>
-    </tr>
-  </ng-template>
+  <div>
 
-  <ng-template pTemplate="emptymessage">
-    <tr>
-      <td colspan="4" style="text-align: center;">No employees found.</td>
-    </tr>
-  </ng-template>
-</p-table>
+    <div class="content">
+      <div class="list-layout">
+        <div class="empty-message" *ngIf="dispMap.size==0">No employee found. Consider adding employees!! </div>
+        <div
+          class="list-content"
+          *ngFor="let key of dispMap.keys()"
+        >
+          <div class="header-list">
+            <div class="sub-header">
+              <span> <b>{{ key | uppercase }}</b></span>
+            </div>
+          </div>
 
-<router-outlet></router-outlet>
+          <!-- <ng-container *ngFor="let topItem of dispMap.get(key).keys()"> -->
+          <div class="list-content large-list">
+            <ng-container *ngFor="let topItem of dispMap.get(key).keys()">
+              <div
+              class="card"
+              [ngClass]="{
+                selected: selectedEmployee.id === item.id
+              }"
+              *ngFor="let item of dispMap.get(key).get(topItem)"
+              (click)="selected(item)"
+            >
+            
+            <div class="content-holder">
+
+             <div class="type-dept-holder">
+              <div class="dept-beautifier">
+                {{ item.department.code | uppercase }}
+              </div>
+               <div class="spacer"></div>
+               <div class="type-beautifier" *ngIf="item.type==='PartTime'">
+                {{ 'pt' | uppercase }}
+              </div>
+            </div> 
+
+              <div class="image-holder">
+                <img
+                  style="border-radius: 50px;"
+                  [src]="item.image"
+                  width="100"
+                  height="100"
+                  class="img-center"
+                />
+              </div>
+
+              <div class="name-holder">
+                {{ item.name }}
+              </div>
+
+              <div class="holder">
+                {{ item.designation }}
+              </div>
+
+              <div class="holder">
+                {{ item.email }}
+              </div>
+
+            </div>
+
+
+            </div>
+          </ng-container>
+            
+          </div>
+        <!-- </ng-container> -->
+        </div>
+      </div>
+      <div class="spacer"></div>
+      <div class="data-content">
+        <div class="header-list">
+          <div class="sub-header">
+            <span style="font-size: larger;"> <b>Employee Data</b></span>
+          </div>
+          <div class="spacer"></div>
+          <div (click)="changeToEditMode()" *ngIf="selectedEmployee.id && !editMode">
+            <svg class="primary" width="24" height="24" viewBox="0 0 24 24">
+              <path
+                d="M 11.160156 9.300781 L 5.941406 14.519531 L 5.003906 16.894531 C 4.488281 18.191406 4.066406 19.34375 4.078125 19.453125 C 4.078125 19.679688 4.320312 19.921875 4.546875 19.921875 C 4.65625 19.933594 5.808594 19.511719 7.105469 18.996094 L 9.480469 18.058594 L 14.699219 12.839844 L 19.921875 7.609375 L 19.921875 6.984375 C 19.921875 5.496094 18.503906 4.078125 17.015625 4.078125 L 16.390625 4.078125 Z M 17.796875 4.871094 C 18.636719 5.292969 19.320312 6.226562 19.320312 6.949219 C 19.320312 7.441406 18.804688 8.039062 18.457031 7.945312 C 18.238281 7.894531 18.214844 7.921875 18.265625 8.136719 C 18.300781 8.28125 18.277344 8.449219 18.191406 8.507812 C 18.085938 8.59375 17.675781 8.257812 16.691406 7.273438 C 15.613281 6.179688 15.371094 5.890625 15.503906 5.785156 C 15.636719 5.675781 15.898438 5.867188 16.738281 6.71875 C 17.328125 7.320312 17.855469 7.800781 17.902344 7.800781 C 18.214844 7.800781 17.867188 7.246094 16.96875 6.347656 L 15.9375 5.316406 L 16.320312 5.003906 C 16.753906 4.632812 17.230469 4.597656 17.796875 4.871094 Z M 14.449219 7.175781 C 14.484375 7.234375 12.792969 8.988281 10.691406 11.089844 C 8.136719 13.644531 6.839844 14.855469 6.78125 14.761719 C 6.71875 14.664062 7.980469 13.320312 10.453125 10.847656 C 12.527344 8.773438 14.257812 7.078125 14.304688 7.078125 C 14.351562 7.078125 14.410156 7.128906 14.449219 7.175781 Z M 11.328125 11.652344 C 8.28125 14.699219 7.476562 15.445312 7.34375 15.335938 C 7.210938 15.226562 7.945312 14.449219 10.992188 11.386719 C 14.039062 8.339844 14.84375 7.597656 14.976562 7.703125 C 15.109375 7.8125 14.375 8.59375 11.328125 11.652344 Z M 15.601562 8.820312 C 15.46875 8.964844 15.359375 9.144531 15.359375 9.214844 C 15.359375 9.445312 15.660156 9.382812 15.898438 9.121094 C 16.066406 8.929688 16.152344 8.914062 16.285156 9.023438 C 16.429688 9.132812 15.886719 9.730469 13.273438 12.347656 C 11.519531 14.113281 10.078125 15.613281 10.078125 15.695312 C 10.078125 15.769531 10.152344 15.839844 10.234375 15.839844 C 10.308594 15.839844 11.808594 14.410156 13.558594 12.660156 C 15.683594 10.535156 16.777344 9.527344 16.847656 9.601562 C 16.933594 9.683594 15.707031 10.992188 13.175781 13.523438 L 9.371094 17.328125 L 8.941406 16.921875 L 8.519531 16.511719 L 11.820312 13.199219 C 13.632812 11.386719 15.121094 9.828125 15.121094 9.742188 C 15.121094 9.671875 15.046875 9.601562 14.964844 9.601562 C 14.890625 9.601562 13.332031 11.089844 11.519531 12.898438 C 8.386719 16.03125 8.21875 16.1875 8.003906 15.996094 C 7.800781 15.804688 7.96875 15.613281 11.605469 11.976562 C 15.203125 8.375 15.421875 8.183594 15.625 8.363281 C 15.839844 8.554688 15.839844 8.566406 15.601562 8.820312 Z M 8.664062 17.652344 C 8.554688 17.761719 6.46875 18.601562 6.3125 18.601562 C 6.144531 18.601562 5.398438 17.867188 5.398438 17.699219 C 5.398438 17.578125 5.640625 16.933594 6.191406 15.613281 L 6.371094 15.191406 L 7.558594 16.378906 C 8.21875 17.039062 8.710938 17.605469 8.664062 17.652344 Z M 8.664062 17.652344"
+                fill="#FFF"
+              />
+            </svg>
+          </div>
+          <div (click)="removeEmployee()" *ngIf="selectedEmployee.id && !editMode">
+            <svg class="delete" width="24" height="24" viewBox="0 0 24 24">
+              <path
+                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z"
+                fill="#FFF"
+              />
+            </svg>
+          </div>
+        </div>
+        <hr color="#eee">
+        <div class="basic-info-holder">
+          <div>
+          <div class="info-name-holder">
+            <label>Name</label>
+            <input class="details small" [(ngModel)]="selectedEmployee.name" placeholder="Name" [disabled]="!editMode && !addMode"/>
+          </div>
+          <div class="info-type-holder">
+            <label>Gender</label>
+            <select class="details small" [(ngModel)]="selectedEmployee.gender" placeholder="Gender" [disabled]="!editMode && !addMode">
+              <option value="" disabled selected hidden>Choose gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          </div>
+          <div class="spacer"></div>
+          <div class="info-image-holder">
+            <div>Image</div>
+            <img
+                    [src]="selectedEmployee.image!=null?selectedEmployee.image:'https://convert2video.com/add_image.svg'"
+                    width="100"
+                    height="100"
+            />
+          </div>
+        </div>
+        
+        <hr color="#eee">
+        
+        <div class="contact-info-holder">
+          <div style="display: flex;">
+            <div class="info-name-holder">
+              <label>Phone</label>
+              <input class="details small" style="width: 170px;" [(ngModel)]="selectedEmployee.phone" placeholder="Phone" [disabled]="!editMode && !addMode"/>
+            </div>
+            <div class="spacer"></div>
+            <div class="info-name-holder">
+              <label>Mail</label>
+              <input class="details small" [(ngModel)]="selectedEmployee.email" placeholder="Mail" [disabled]="!editMode && !addMode"/>
+            </div>
+          </div>
+          <div class="info-name-holder">
+            <label>Address</label>
+            <textarea class="details large" [(ngModel)]="selectedEmployee.address" placeholder="Address" [disabled]="!editMode && !addMode"></textarea>
+          </div>
+        </div>
+
+        <hr color="#eee">
+
+        <div class="official-info-holder">
+
+          <div style="display: flex;">
+            <div class="info-type-holder">
+              <label>Type</label>
+              <select class="details small" style="width: 150px;" [(ngModel)]="selectedEmployee.type" placeholder="Type" [disabled]="!editMode && !addMode">
+                <option value="" disabled selected hidden>Choose type</option>
+                <option *ngFor="let type of availableTypes.slice(0,availableTypes.length-1)" [value]="type">{{type}}</option>
+              </select>
+            </div>
+            <div class="spacer"></div>
+            <div class="info-type-holder">
+              <label>Role</label>
+              <select class="details small" style="width: 150px;" [(ngModel)]="selectedEmployee.role" placeholder="Role" [disabled]="!editMode && !addMode">
+                <option value="" disabled selected hidden>Choose role</option>
+                <option *ngFor="let entry of availableRoles.slice(0,availableRoles.length-1)" [value]="entry">{{entry}}</option>
+              </select>
+            </div>
+            <div class="spacer"></div>
+            <div class="info-type-holder">
+              <label>Desgination</label>
+              <select class="details small" style="width: 150px;" [(ngModel)]="selectedEmployee.designation" placeholder="Designation" [disabled]="!editMode && !addMode">
+                <option value="" disabled selected hidden>Choose designation</option>
+                <option *ngFor="let entry of availableDesignations" [value]="entry">{{entry}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: flex;">
+            <div class="info-type-holder">
+              <label>Department</label>
+              <select class="details small" style="width: 170px;" [(ngModel)]="selectedEmployee.department.code" placeholder="Department" [disabled]="!editMode && !addMode">
+                <option value="" disabled selected hidden>Choose department</option>
+                <option value="GCT">GCT</option>
+                <option value="FXLM">FXLM</option>
+              </select>
+            </div>
+            <div class="spacer"></div>
+            <div class="info-name-holder">
+              <label>Salary</label>
+              <input class="details small" [(ngModel)]="selectedEmployee.salary" placeholder="Salary" [disabled]="!editMode && !addMode"/>
+            </div>
+          </div>
+
+        </div>
+        
+        <hr color="#eee" *ngIf="!selectedEmployee.id || editMode">
+
+        <div class="info-button-holder" style="display: flex;" *ngIf="!selectedEmployee.id">
+          <div class="spacer"></div>
+          <div class="button primary-button">
+            <span class="button-text" (click)="insertEmployee()">Add</span>
+          </div>
+        </div>
+        <div class="info-button-holder" style="display: flex;" *ngIf="editMode">
+          <div class="spacer"></div>
+          <div class="button primary-button">
+            <span class="button-text" (click)="updateEmployee()">Update</span>
+          </div>
+        </div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+  </div>
+</div>

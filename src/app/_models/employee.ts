@@ -1,14 +1,22 @@
-﻿export class Employee {
-    id: string;
-    name: string;
-    role: string;
-    type:string;
-    // gender: string;
-    // dob:Date;
-    // doj:Date;
-    // address:string;
-    email:string;
-    // phone = new Array<number>(2);
-    phone:number;
-    // image:File;
+﻿import { Department } from '../_models/department';
+
+export class Employee {
+    id;
+    name;
+    type;
+    role;
+    designation;
+    salary;
+    // statusType;
+    // statusReason;
+    // doj;
+    // dob;
+    // dol;
+    department: Department;
+    image;
+    gender;
+    phone;
+    email;
+    // aadhar;
+    address;
 }

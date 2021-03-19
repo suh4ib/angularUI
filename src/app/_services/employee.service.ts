@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Observable} from 'rxjs/Observable';
-import { catchError, retry } from 'rxjs/operators';
-import { Employee } from '../_models/employee';
-
+import { Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,36 +8,28 @@ import { Employee } from '../_models/employee';
 export class EmployeeService {
   
   constructor(private http: HttpClient) { }
-  
-  employeeFormClosedSubject = new Subject<void>();
-  employeeAttendanceClosedSubject = new Subject<void>();
-  employeeViewClosedSubject = new Subject<void>();
 
-  employeeEditId;
-
-  employeeFormClosedEvent() {
-    this.employeeFormClosedSubject.next();
-  }
-
-  employeeAttendanceClosedEvent() {
-    this.employeeAttendanceClosedSubject.next();
-  }
-
-  employeeViewClosedEvent(){
-    this.employeeViewClosedSubject.next();
-  }
-
-  employeeEditClickedEvent(id) {
-    this.employeeEditId = id;
-  }
-
-  getEmployeeEditId() {
-    return this.employeeEditId;
-  }
+  headers = { 'content-type': 'application/json'};
 
   getEmployees() {
-    let getAllEmployeesURL = "http://localhost:5000/employee"
-    return this.http.get(getAllEmployeesURL);
+    let url = "http://localhost:8080/employees";
+    return this.http.get(url);
+  }
+
+  inactivateEmployee(id) {
+    let url = "http://localhost:8080/employee/"+id;
+    return this.http.delete(url);
+  }
+
+  insertEmployee(employee) : Observable<any> {
+    
+    let url = "http://localhost:8080/employee";
+    return this.http.post<any>(url, JSON.stringify(employee), {'headers':this.headers} );
+  }
+
+  updateEmployee(employee) : Observable<any> {
+    let url = "http://localhost:8080/employee";
+    return this.http.put<any>(url, JSON.stringify(employee), {'headers':this.headers} );
   }
 
 }
